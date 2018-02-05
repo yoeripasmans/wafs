@@ -1,8 +1,8 @@
 # wafs
 The course repo for 'Web App From Scratch'
 
-## Voor- en nadelen van JavaScript libraries/frameworks
+## Advantages and disadvantages of JavaScript libraries/frameworks
 
-## Voor- en nadelen van client side single page web apps
+## Advantages and disadvantages of client side single page web apps
 
 ## Best practices
