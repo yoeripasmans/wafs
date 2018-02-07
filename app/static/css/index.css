@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+	padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    color: #fff;
+}
+
+nav {
+    position: fixed;
+    right: 4em;
+    top: 2em;
+    z-index: 1;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li  {
+	display: inline;
+	padding: 1em;
+}
+
+nav ul li a {
+	color: #fff;
+	text-decoration: none;
+}
+
+section {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+section h1 {
+	margin: 0;
+    position: absolute;
+    font-size: 4em;
+    font-weight: 800;
+    color: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+section ul {
+	padding: 0;
+    font-size: 1.2em;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#start {
+    background-color: #E63946;
+}
+
+#practices {
+    background-color: #1D3557;
+}

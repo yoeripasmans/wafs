@@ -2,7 +2,7 @@
 
 	var app = {
 		init: function() {
-			position.set();
+			position.check();
 		}
 	};
 
@@ -12,7 +12,7 @@
 		check: function() {
 			var el = document.body;
 			var self = this;
-			this.set();
+			this.update();
 
 			el.addEventListener('touchstart', function(){
 				self.update();
@@ -45,7 +45,7 @@
 
 	var $ = helper.getElement;
 
-	//Start apply
+	//Start app
 	app.init();
 
 })();
