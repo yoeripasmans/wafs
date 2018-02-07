@@ -40,3 +40,4 @@ The course repo for 'Web App From Scratch'
 - camelCase your code if(code != Constructor || CONSTANTS)
 - Place external scripts at the bottom of the page
 - Indent your code
+- Always code comment
