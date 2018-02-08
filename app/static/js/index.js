@@ -10,10 +10,10 @@
 
 	var routes = {
 		init: function() {
-			//Toggle the sections when the hash changes. This happens when the user clicks on a link.
+			//Toggle the sections when the the page loads.
 			window.addEventListener("load", function(route) {
 				route = window.location.hash.slice(1);
-				//Check if hash exsist if not set it to start else toggle to the current hash
+				//Check if a hash exsist. If not set it to "start". Else fire the toggle method to display the current hash
 				if (route == "") {
 					window.location.hash = 'start';
 				} else {
