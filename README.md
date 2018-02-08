@@ -39,5 +39,5 @@ The course repo for 'Web App From Scratch'
 - Work in strict mode
 - camelCase your code if(code != Constructor || CONSTANTS)
 - Place external scripts at the bottom of the page
-- Indent your code
-- Always code comment
+- Indent your code.
+- Always code comment.
