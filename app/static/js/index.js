@@ -15,7 +15,7 @@
 				route = window.location.hash.slice(1);
 				//Check if a hash exsist. If not set it to "start". Else fire the toggle method to display the current hash
 				if (route == "") {
-					window.location.hash = 'start';
+					window.location.hash = 'home';
 				} else {
 					sections.toggle(route);
 				}
