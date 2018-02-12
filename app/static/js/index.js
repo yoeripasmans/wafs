@@ -23,6 +23,7 @@
 				},
 				'pokemons/:name': function(name) {
 					sections.toggle('pokemons-detail');
+					render.renderDetail(name);
 				}
 			});
 		},
@@ -47,6 +48,9 @@
 		},
 
 	};
+
+	var dataObject;
+
 	var dataHandler = {
 
 		request: function() {
@@ -55,12 +59,17 @@
 					return response.json();
 				})
 				.then(function(data) {
-					dataHandler.render(data.results);
+					dataObject = data.results;
+					render.renderOverview();
 				});
 		},
-		render: function(data) {
 
-			data.forEach(function(item, i) {
+	};
+
+	var render = {
+
+		renderOverview: function() {
+			for (var i = 0; i < dataObject.length; i++) {
 				var directives = {
 					name: {
 						text: function(params) {
@@ -71,11 +80,29 @@
 						}
 					},
 				};
+				Transparency.render(document.querySelector('#pokemons ul'), dataObject, directives);
+			}
 
-				Transparency.render(document.querySelector('#pokemons ul'), data, directives);
-			});
+		},
+		renderDetail: function(name) {
+
+			for (var i = 0; i < dataObject.length; i++) {
+				if (dataObject[i].name == name) {
+					var directives = {
+						name: {
+							text: function(params) {
+								return this.name;
+							},
+							href: function(params) {
+								return "#pokemons/" + this.name;
+							}
+						},
+					};
+					Transparency.render(document.querySelector('#pokemons-detail'), dataObject[i], directives);
+				}
+			}
+
 		}
-
 	};
 
 	//Start app
