@@ -5,28 +5,22 @@
 		//Starts app with initialize the routes
 		init: function() {
 			routes.init();
+			getData.request();
 		}
 	};
 
 	var routes = {
 		init: function() {
-			//Toggle the sections when the the page loads.
-			window.addEventListener("load", function(route) {
-				route = window.location.hash.slice(1);
-				//Check if a hash exsist. If not set it to "start". Else fire the toggle method to display the current hash
-				if (route == "") {
+			routie({
+				'': function() {
 					window.location.hash = 'home';
-				} else {
-					sections.toggle(route);
+				},
+				'home': function() {
+					sections.toggle('home');
+				},
+				'pokemons': function() {
+					sections.toggle('pokemons');
 				}
-			});
-
-			//Toggle the sections when the hash changes. This happens when the user clicks on a link.
-			window.addEventListener("hashchange", function(route) {
-				//save the clicked url to a usable string and slices it to the name of the clicked link
-				route = window.location.hash.slice(1);
-				//Passes the hash to the sections as a parameter.
-				sections.toggle(route);
 			});
 		},
 
@@ -50,6 +44,31 @@
 		},
 
 	};
+	var getData = {
+		request: function() {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'https://cors-anywhere.herokuapp.com/' + 'http://www.pokeapi.co/api/v2/pokemon', true);
+
+			request.onload = function() {
+				if (request.status >= 200 && request.status < 400) {
+					// Success!
+					var data = JSON.parse(request.responseText);
+					console.log(data);
+				} else {
+					// We reached our target server, but it returned an error
+
+				}
+			};
+
+			request.onerror = function() {
+				// There was a connection error of some sort
+			};
+
+			request.send();
+		}
+	};
+
+
 
 	//Start app
 	app.init();
