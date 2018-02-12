@@ -2,10 +2,10 @@
 	'use strict';
 
 	var app = {
-		//Starts app with initialize the routes
+		//Starts app with initialize the routes and gets the data
 		init: function() {
 			routes.init();
-			getData.request();
+			dataHandler.request();
 		}
 	};
 
@@ -13,13 +13,16 @@
 		init: function() {
 			routie({
 				'': function() {
-					window.location.hash = 'home';
+					routie('home');
 				},
 				'home': function() {
 					sections.toggle('home');
 				},
 				'pokemons': function() {
 					sections.toggle('pokemons');
+				},
+				'pokemons/:name': function(name) {
+					sections.toggle('pokemons-detail');
 				}
 			});
 		},
@@ -44,31 +47,36 @@
 		},
 
 	};
-	var getData = {
+	var dataHandler = {
+
 		request: function() {
-			var request = new XMLHttpRequest();
-			request.open('GET', 'https://cors-anywhere.herokuapp.com/' + 'http://www.pokeapi.co/api/v2/pokemon', true);
+			fetch('https://pokeapi.co/api/v2/pokemon')
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(data) {
+					dataHandler.render(data.results);
+				});
+		},
+		render: function(data) {
 
-			request.onload = function() {
-				if (request.status >= 200 && request.status < 400) {
-					// Success!
-					var data = JSON.parse(request.responseText);
-					console.log(data);
-				} else {
-					// We reached our target server, but it returned an error
+			data.forEach(function(item, i) {
+				var directives = {
+					name: {
+						text: function(params) {
+							return this.name;
+						},
+						href: function(params) {
+							return "#pokemons/" + this.name;
+						}
+					},
+				};
 
-				}
-			};
-
-			request.onerror = function() {
-				// There was a connection error of some sort
-			};
-
-			request.send();
+				Transparency.render(document.querySelector('#pokemons ul'), data, directives);
+			});
 		}
+
 	};
-
-
 
 	//Start app
 	app.init();

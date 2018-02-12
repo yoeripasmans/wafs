@@ -72,10 +72,20 @@ section ul {
 	min-width: 15em;
 }
 
+section ul li a {
+	text-decoration: none;
+	color: #fff;
+
+}
+
 #home {
     background-color: #E63946;
 }
 
 #pokemons {
+    background-color: #1D3557;
+}
+
+#pokemons-detail {
     background-color: #1D3557;
 }
