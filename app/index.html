@@ -17,17 +17,55 @@
 	</nav>
 
 	<section id="home">
-		<h1>Home</h1>
+		<h1>Pokemon Database</h1>
 	</section>
 
 	<section id="pokemons">
 		<ul>
-			<li><a href="#pokemons/:name" class="name"></a></li>
+			<li><a href="#pokemons/:name" class="link"><img data-bind="img" src="/" alt="">
+			<span data-bind="name"></span></a></li>
 		</ul>
 	</section>
 
 	<section id="pokemons-detail">
-		<h1 class="name"></h1>
+		<header>
+			<img data-bind="img" src="/" alt="">
+			<h1 data-bind="name"></h1>
+		</header>
+
+		<div class="stats-container">
+			<div>
+				<h3>Height:</h3>
+				<span data-bind="height"></span>
+			</div>
+
+			<div>
+				<h3>Weight:</h3>
+				<span data-bind="weight"></span>
+			</div>
+
+			<div>
+				<h3>Base Experience:</h3>
+				<span data-bind="base_experience"></span>
+			</div>
+			<div>
+				<h3>Abilities:</h3>
+				<div data-bind="abilities">
+					<div data-bind="ability">
+						<div data-bind="name"></div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<h3>Types:</h3>
+				<div data-bind="types">
+					<div data-bind="type">
+						<div data-bind="name"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</section>
 
 	<script type="text/javascript" src="static/js/transparency.min.js"></script>
