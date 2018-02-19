@@ -154,6 +154,9 @@ font-weight: 400;
 		text-transform: capitalize;
 }
 
+.show {
+	display: block;
+}
 
 #home {
     background-color: #E63946;

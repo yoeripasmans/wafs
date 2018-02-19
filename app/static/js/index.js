@@ -38,9 +38,9 @@
 			for (var i = 0; i < elements.length; i++) {
 				//If the hash is equal to an id of a section show that section. If not hide it.
 				if (elements[i].id === route) {
-					elements[i].style.display = "block";
+					elements[i].classList.add("show");
 				} else {
-					elements[i].style.display = "none";
+					elements[i].classList.remove("show");
 				}
 
 			}
@@ -67,6 +67,7 @@
 						};
 					});
 					render.overview(dataObject);
+					console.log(dataObject);
 				});
 		},
 
@@ -96,8 +97,6 @@
 			});
 			return dataDetail;
 		},
-
-		map: function() {}
 
 	};
 
