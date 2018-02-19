@@ -5,7 +5,7 @@
 		//Starts app with initialize the routes and gets the data
 		init: function() {
 			routes.init();
-			dataHandler.request();
+			api.getPokemons();
 		}
 	};
 
@@ -22,8 +22,8 @@
 					sections.toggle('pokemons');
 				},
 				'pokemons/:name': function(name) {
-					dataHandler.requestDetail(name);
-				}
+					api.getPokemonDetail(name);
+				},
 			});
 		},
 
@@ -48,17 +48,19 @@
 
 	};
 
-	var dataHandler = {
+	var api = {
 
 		//Get the data from the pokemon API
-		request: function() {
+		getPokemons: function() {
+			console.log('Pokemons worden geladen');
+			var self = this;
 			fetch('https://pokeapi.co/api/v2/pokemon')
+				//Return data as json
 				.then(function(response) {
 					return response.json();
 				})
 				.then(function(data) {
-					dataHandler.data = data.results;
-					//Add an ID to every object
+					//Add an ID to every object with map function
 					var dataObject = data.results.map(function(i, index) {
 						return {
 							id: index,
@@ -66,13 +68,23 @@
 							url: i.url
 						};
 					});
+					localStorage.setItem('dataObject',  JSON.stringify(dataObject));
+					//Render pokemon overview
 					render.overview(dataObject);
-					console.log(dataObject);
+					console.log('Pokemons geladen');
+				})
+				.catch(function(error) {
+					console.log(error);
 				});
 		},
 
-		requestDetail: function(name) {
-			if (name) {
+		getPokemonDetail: function(name) {
+			console.log('Pokemon detail pagina wordt geladen');
+			var self = this;
+			var loader = document.querySelector('.loader');
+			loader.classList.add("show");
+			//Check if data exist else get data
+			if (this.data) {
 				//Get the object with the name of name of the parameter and save it in variable
 				var dataDetail = this.filter(name);
 
@@ -82,7 +94,39 @@
 						return response.json();
 					})
 					.then(function(data) {
+						loader.classList.remove("show");
 						render.detail(data);
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			} else {
+				fetch('https://pokeapi.co/api/v2/pokemon')
+					//Return data as json
+					.then(function(response) {
+						return response.json();
+					})
+					.then(function(data) {
+						self.data = data.results;
+						console.log('Pokemons geladen');
+					}).then(function() {
+						//Get the object with the name of name of the parameter and save it in variable
+						var dataDetail = self.filter(name);
+
+						//Get more data of the filtered object
+						fetch(dataDetail[0].url)
+							.then(function(response) {
+								return response.json();
+							})
+							.then(function(data) {
+								loader.classList.remove("show");
+								render.detail(data);
+							});
+
+					})
+
+					.catch(function(error) {
+						console.log(error);
 					});
 			}
 		},
@@ -126,6 +170,8 @@
 
 		},
 		detail: function(dataObject) {
+			this.backgroundColorToggle(dataObject);
+
 			var directives = {
 				img: {
 					src: function(params) {
@@ -136,6 +182,26 @@
 			};
 			Transparency.render(document.querySelector('#pokemons-detail'), dataObject, directives);
 			sections.toggle('pokemons-detail');
+		},
+
+		backgroundColorToggle: function(dataObject) {
+			var background = document.querySelector("#pokemons-detail");
+
+			for (var i = 0; i < dataObject.types.length; i++) {
+				if (dataObject.types[i].type.name == "fire") {
+					background.style.backgroundColor = "#E63946";
+				} else if (dataObject.types[i].type.name == "water") {
+					background.style.backgroundColor = "#5BC0EB";
+				} else if (dataObject.types[i].type.name == "grass") {
+					background.style.backgroundColor = "#9BC53D";
+				} else if (dataObject.types[i].type.name == "poison") {
+					background.style.backgroundColor = "#3D315B";
+				} else if (dataObject.types[i].type.name == "normal") {
+					background.style.backgroundColor = "grey";
+				} else {
+					background.style.backgroundColor = "#0B132B";
+				}
+			}
 		}
 	};
 
