@@ -1,8 +1,8 @@
-# Pokemon Database app
+# Single Page Pokemon Application
 
 For this individual project I've made an single page web application which shows all the Pokemons of the first generation. The data gets called from the Pokéapi.
 
-![][cover]
+![Preview](/static/img/preview.png)
 
 ## Functionality
 
@@ -14,11 +14,11 @@ The main functionality of this app is to display all of the Pokemons and the det
 
 ## Actor Diagram
 
-![][actor]
+![Preview](/static/img/object.png)
 
 ## Interaction Flow Diagram
 
-![][interaction]
+![Preview](/static/img/interaction.png)
 
 ## Background
 
@@ -62,7 +62,3 @@ I used a call for all of the Pokemon which look like this.
 ## License
 
 [MIT](https://opensource.org/licenses/MIT) © Yoeri Pasmans
-
-[cover]: img/preview.png
-[actor]: img/object.png
-[interaction]: img/interaction.png
