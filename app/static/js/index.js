@@ -2,15 +2,15 @@
 	'use strict';
 
 	var app = {
-		//Starts app with initialize the routes and gets the data
+		//Starts app with initialize the router and gets the data
 		init: function() {
-			routes.init();
+			router.init();
 			api.getPokemons();
 		}
 	};
 
-	var routes = {
-		//Set the routes
+	var router = {
+		//Set the router
 		init: function() {
 			routie({
 				'': function() {
