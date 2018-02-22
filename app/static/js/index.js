@@ -54,7 +54,10 @@
 		getPokemons: function() {
 			console.log('Pokemons worden geladen');
 			var self = this;
-			fetch('https://pokeapi.co/api/v2/pokemon')
+			//Show loader
+			var loader = document.querySelector('.loader');
+			loader.classList.add("show");
+			fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
 				//Return data as json
 				.then(function(response) {
 					return response.json();
@@ -68,9 +71,13 @@
 							url: i.url
 						};
 					});
-					localStorage.setItem('dataObject',  JSON.stringify(dataObject));
+					self.data = dataObject;
+					//Save data in local storage
+					localStorage.setItem('dataObject', JSON.stringify(dataObject));
 					//Render pokemon overview
+					loader.classList.remove("show");
 					render.overview(dataObject);
+					self.getInput();
 					console.log('Pokemons geladen');
 				})
 				.catch(function(error) {
@@ -81,66 +88,55 @@
 		getPokemonDetail: function(name) {
 			console.log('Pokemon detail pagina wordt geladen');
 			var self = this;
+			//Show loader
 			var loader = document.querySelector('.loader');
 			loader.classList.add("show");
-			//Check if data exist else get data
-			if (this.data) {
-				//Get the object with the name of name of the parameter and save it in variable
-				var dataDetail = this.filter(name);
-
-				//Get more data of the filtered object
-				fetch(dataDetail[0].url)
-					.then(function(response) {
-						return response.json();
-					})
-					.then(function(data) {
-						loader.classList.remove("show");
-						render.detail(data);
-					})
-					.catch(function(error) {
-						console.log(error);
-					});
-			} else {
-				fetch('https://pokeapi.co/api/v2/pokemon')
-					//Return data as json
-					.then(function(response) {
-						return response.json();
-					})
-					.then(function(data) {
-						self.data = data.results;
-						console.log('Pokemons geladen');
-					}).then(function() {
-						//Get the object with the name of name of the parameter and save it in variable
-						var dataDetail = self.filter(name);
-
-						//Get more data of the filtered object
-						fetch(dataDetail[0].url)
-							.then(function(response) {
-								return response.json();
-							})
-							.then(function(data) {
-								loader.classList.remove("show");
-								render.detail(data);
-							});
-
-					})
-
-					.catch(function(error) {
-						console.log(error);
-					});
-			}
-		},
-
-		filter: function(name) {
-			var dataDetail = this.data.filter(function(obj) {
+			var data = JSON.parse(localStorage.getItem('dataObject'));
+			//Check if data exist
+			//Get the object with the name of name of the parameter and save it in variable
+			var dataDetail = data.filter(function(obj) {
 				if (obj.name == name) {
 					return true;
 				} else {
 					return false;
 				}
 			});
-			return dataDetail;
+
+			//Get data of the detail object
+			fetch(dataDetail[0].url)
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(data) {
+					loader.classList.remove("show");
+					render.detail(data);
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+
 		},
+
+		getInput: function() {
+			var self = this;
+			var searchForm = document.querySelector('.search');
+			searchForm.addEventListener('keyup', function(e) {
+				self.filter(this.value);
+			});
+		},
+
+		filter: function(value) {
+			var data = JSON.parse(localStorage.getItem('dataObject'));
+			var filterData = data.filter(function(obj) {
+				if (obj.name.includes(value)) {
+					return true;
+				} else {
+					return false;
+				}
+				return filterData;
+			});
+			render.overview(filterData);
+		}
 
 	};
 
