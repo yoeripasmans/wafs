@@ -63,6 +63,6 @@ I used a call for all of the Pokemon which look like this.
 
 [MIT](https://opensource.org/licenses/MIT) © Yoeri Pasmans
 
-[cover]: preview.png
-[actor]: object.png
-[interaction]: interaction.png
+[cover]: img/preview.png
+[actor]: img/object.png
+[interaction]: img/interaction.png
