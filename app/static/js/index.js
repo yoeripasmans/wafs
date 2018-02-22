@@ -10,6 +10,7 @@
 	};
 
 	var routes = {
+		//Set the routes
 		init: function() {
 			routie({
 				'': function() {
@@ -57,7 +58,12 @@
 			//Show loader
 			var loader = document.querySelector('.loader');
 			loader.classList.add("show");
-			fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+			//Get the data
+			fetch('https://pokeapi.co/api/v2/pokemon?limit=151', {
+					method: 'GET',
+					mode: 'cors',
+					cache: 'default'
+				})
 				//Return data as json
 				.then(function(response) {
 					return response.json();
@@ -71,17 +77,18 @@
 							url: i.url
 						};
 					});
-					self.data = dataObject;
 					//Save data in local storage
 					localStorage.setItem('dataObject', JSON.stringify(dataObject));
-					//Render pokemon overview
+					//Remove Loader
 					loader.classList.remove("show");
+					//Render pokemon overview
 					render.overview(dataObject);
-					self.getInput();
+					//Initialize input method
+					self.getInput(dataObject);
 					console.log('Pokemons geladen');
 				})
 				.catch(function(error) {
-					console.log(error);
+					sections.toggle('error');
 				});
 		},
 
@@ -91,8 +98,9 @@
 			//Show loader
 			var loader = document.querySelector('.loader');
 			loader.classList.add("show");
+			//Get data from localStorage
 			var data = JSON.parse(localStorage.getItem('dataObject'));
-			//Check if data exist
+
 			//Get the object with the name of name of the parameter and save it in variable
 			var dataDetail = data.filter(function(obj) {
 				if (obj.name == name) {
@@ -112,22 +120,23 @@
 					render.detail(data);
 				})
 				.catch(function(error) {
+					sections.toggle('error');
 					console.log(error);
 				});
 
+
 		},
 
-		getInput: function() {
+		getInput: function(dataObject) {
 			var self = this;
 			var searchForm = document.querySelector('.search');
 			searchForm.addEventListener('keyup', function(e) {
-				self.filter(this.value);
+				self.filter(this.value, dataObject);
 			});
 		},
 
-		filter: function(value) {
-			var data = JSON.parse(localStorage.getItem('dataObject'));
-			var filterData = data.filter(function(obj) {
+		filter: function(value, dataObject) {
+			var filterData = dataObject.filter(function(obj) {
 				if (obj.name.includes(value)) {
 					return true;
 				} else {

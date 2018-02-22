@@ -74,7 +74,7 @@ section ul {
     color: #fff;
 	width: 100%;
 	display: grid;
-    grid-template-columns: repeat( auto-fill, minmax(10em, 1fr) );
+    grid-template-columns: repeat( auto-fill, minmax(9em, 1fr) );
 	grid-gap: 20px;
 }
 
@@ -94,6 +94,7 @@ section ul li:hover{
 
 section ul li img {
 object-fit: cover;
+width: 100%;
 }
 
 section ul li a {
@@ -113,17 +114,13 @@ section ul li span {
 
 .pokemons-overview-wrapper {
 	max-width: 65em;
-	padding: 7em 0;
+	padding: 7em 1em;
 	margin: auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	background-color: #0B132B;
-}
-
-form {
-
 }
 
 input{
@@ -186,7 +183,7 @@ font-weight: 400;
 
 .loader {
 	display: none;
-	position: absolute;
+	position: fixed;
 	left: 50%;
 	top: 45%;
 	transform: translate(-50%, -50%);
@@ -207,14 +204,10 @@ font-weight: 400;
     100% { transform: rotate(360deg); }
 }
 
-#home {
+#home, #error {
     background-color: #E63946;
 }
 
-#pokemons {
-    background-color: #0B132B;
-}
-
-#pokemons-detail {
+#pokemons, #pokemons-detail {
     background-color: #0B132B;
 }
