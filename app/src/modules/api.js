@@ -1,15 +1,15 @@
 import sections from './sections';
 import render from './render';
+import filter from './filter';
+import loader from './loader';
 
 const api = {
 
 	//Get the data from the pokemon API
 	getPokemons: function() {
 		console.log('Pokemons worden geladen');
-		var self = this;
 		//Show loader
-		var loader = document.querySelector('.loader');
-		loader.classList.add("show");
+		loader.show();
 		//Get the data
 		fetch('https://pokeapi.co/api/v2/pokemon?limit=151', {
 				method: 'GET',
@@ -17,12 +17,11 @@ const api = {
 				cache: 'default'
 			})
 			//Return data as json
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(data) {
+			.then(response => response.json())
+
+			.then(data => {
 				//Add an ID to every object with map function
-				var dataObject = data.results.map(function(i, index) {
+				const dataObject = data.results.map((i, index) => {
 					return {
 						id: index,
 						name: i.name,
@@ -32,11 +31,11 @@ const api = {
 				//Save data in local storage
 				localStorage.setItem('dataObject', JSON.stringify(dataObject));
 				//Remove Loader
-				loader.classList.remove("show");
+				loader.hide();
 				//Render pokemon overview
 				render.overview(dataObject);
 				//Initialize input method
-				self.getInput(dataObject);
+				filter.getInput(dataObject);
 				console.log('Pokemons geladen');
 			})
 			.catch(function(error) {
@@ -46,15 +45,13 @@ const api = {
 
 	getPokemonDetail: function(name) {
 		console.log('Pokemon detail pagina wordt geladen');
-		var self = this;
 		//Show loader
-		var loader = document.querySelector('.loader');
-		loader.classList.add("show");
+		loader.show();
 		//Get data from localStorage
-		var data = JSON.parse(localStorage.getItem('dataObject'));
+		const data = JSON.parse(localStorage.getItem('dataObject'));
 
 		//Get the object with the name of name of the parameter and save it in variable
-		var dataDetail = data.filter(function(obj) {
+		const dataDetail = data.filter(function(obj) {
 			if (obj.name == name) {
 				return true;
 			} else {
@@ -68,7 +65,7 @@ const api = {
 				return response.json();
 			})
 			.then(function(data) {
-				loader.classList.remove("show");
+				loader.hide();
 				render.detail(data);
 			})
 			.catch(function(error) {
@@ -78,26 +75,6 @@ const api = {
 
 
 	},
-
-	getInput: function(dataObject) {
-		var self = this;
-		var searchForm = document.querySelector('.search');
-		searchForm.addEventListener('keyup', function(e) {
-			self.filter(this.value, dataObject);
-		});
-	},
-
-	filter: function(value, dataObject) {
-		var filterData = dataObject.filter(function(obj) {
-			if (obj.name.includes(value)) {
-				return true;
-			} else {
-				return false;
-			}
-			return filterData;
-		});
-		render.overview(filterData);
-	}
 
 };
 

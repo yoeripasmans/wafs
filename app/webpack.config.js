@@ -1,28 +1,30 @@
+const path = require('path');
+const webpack = require('webpack');
+
 module.exports = {
-	entry: ("./src/index.js"),
+	entry: __dirname + "/src/index.js",
 	output: {
-		path: __dirname + "/build/static/js",
+		path: __dirname + "/public/assets/",
+		publicPath: "/assets/js",
 		filename: 'bundle.js'
 	},
 	module: {
-		loaders: [{
-			loader: 'babel-loader',
+		rules: [{
 			test: /\.js$/,
-			exclude: /node_modules/,
-			options: {
-				presets: 'es2015'
-			},
-		}]
+			exclude: [/node_modules/],
+			use: [{
+				loader: 'babel-loader',
+				options: {
+					presets: ['es2015']
+				},
+			}],
+		}, ]
 	},
-	devtool: 'inline-source-map',
-	externals: {
-		routie: 'routie',
-		transparency: 'transparency'
-	},
+	devtool: 'source-map',
 	devServer: {
 		port: 3000,
-		contentBase: './build',
-		inline: true
+		compress: true,
+		contentBase: __dirname + "/public/",
 	},
 
 };

@@ -4,10 +4,10 @@ import transparency from './vendor/transparency.min.js';
 const render = {
 
 	overview: function(dataObject) {
-		for (var i = 0; i < dataObject.length; i++) {
-			var directives = {
+		for (let i = 0; i < dataObject.length; i++) {
+			const directives = {
 				name: {
-					text: function(params) {
+					text: function(params)  {
 						return this.name;
 					},
 				},
@@ -18,7 +18,7 @@ const render = {
 				},
 				img: {
 					src: function(params) {
-						return "static/img/pokemons/" + (this.id + 1) + ".png";
+						return "assets/img/pokemons/" + (this.id + 1) + ".png";
 					}
 				}
 			};
@@ -32,7 +32,7 @@ const render = {
 		var directives = {
 			img: {
 				src: function(params) {
-					return "static/img/pokemons/" + this.id + ".png";
+					return "assets/img/pokemons/" + this.id + ".png";
 				}
 			}
 
@@ -42,9 +42,9 @@ const render = {
 	},
 
 	backgroundColorToggle: function(dataObject) {
-		var background = document.querySelector("#pokemons-detail");
+		const background = document.querySelector("#pokemons-detail");
 
-		for (var i = 0; i < dataObject.types.length; i++) {
+		for (let i = 0; i < dataObject.types.length; i++) {
 			if (dataObject.types[i].type.name == "fire") {
 				background.style.backgroundColor = "#E63946";
 			} else if (dataObject.types[i].type.name == "water") {

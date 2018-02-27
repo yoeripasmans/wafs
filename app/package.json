@@ -1,35 +1,21 @@
 {
     "name": "app",
     "version": "1.0.0",
-    "description": "For this individual project I've made an single page web application which shows all the Pokemons of the first generation. The data gets called from the Pokéapi.",
+    "description": "A single page web application which shows all the Pokemons of the first generation.",
     "main": "index.js",
     "scripts": {
         "build": "webpack",
         "start": "webpack-dev-server",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "babel": {
-        "presets": [
-            "es2015"
-        ]
-    },
-    "eslintConfig": {
-        "env": {
-            "browser": true,
-            "node": true
-        }
-    },
     "devDependencies": {
         "babel-core": "^6.25.0",
         "babel-loader": "^7.0.0",
         "babel-polyfill": "^6.23.0",
         "babel-preset-es2015": "^6.24.1",
-        "browser-sync": "^2.18.12",
-        "browser-sync-webpack-plugin": "^1.1.4",
         "eslint": "^4.0.0",
-        "routie": "0.0.1",
+        "path": "^0.12.7",
         "sass-loader": "^6.0.5",
-        "transparency": "^1.0.0",
         "webpack": "^2.6.1",
         "webpack-dev-server": "^2.4.5"
     },
