@@ -2,7 +2,7 @@
 
 For this individual project I've made an single page web application which shows all the Pokemons of the first generation. The data gets called from the Pokéapi.
 
-![Preview](assets/img/preview.png)
+![Preview](public/assets/img/preview.png)
 
 ## Functionality
 
@@ -14,11 +14,11 @@ The main functionality of this app is to display all of the Pokemons and the det
 
 ## Actor Diagram
 
-![Preview](assets/img/object.png)
+![Preview](public/assets/img/object.png)
 
 ## Interaction Flow Diagram
 
-![Preview](assets/img/interaction.png)
+![Preview](public/assets/img/interaction.png)
 
 ## Background
 
