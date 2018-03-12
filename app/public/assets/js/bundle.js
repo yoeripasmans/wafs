@@ -60,10 +60,10 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/assets/js";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -111,9 +111,17 @@ var _sections = __webpack_require__(0);
 
 var _sections2 = _interopRequireDefault(_sections);
 
-var _render = __webpack_require__(4);
+var _render = __webpack_require__(2);
 
 var _render2 = _interopRequireDefault(_render);
+
+var _filter = __webpack_require__(6);
+
+var _filter2 = _interopRequireDefault(_filter);
+
+var _loader = __webpack_require__(7);
+
+var _loader2 = _interopRequireDefault(_loader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -122,10 +130,8 @@ var api = {
 	//Get the data from the pokemon API
 	getPokemons: function getPokemons() {
 		console.log('Pokemons worden geladen');
-		var self = this;
 		//Show loader
-		var loader = document.querySelector('.loader');
-		loader.classList.add("show");
+		_loader2.default.show();
 		//Get the data
 		fetch('https://pokeapi.co/api/v2/pokemon?limit=151', {
 			method: 'GET',
@@ -147,11 +153,11 @@ var api = {
 			//Save data in local storage
 			localStorage.setItem('dataObject', JSON.stringify(dataObject));
 			//Remove Loader
-			loader.classList.remove("show");
+			_loader2.default.hide();
 			//Render pokemon overview
 			_render2.default.overview(dataObject);
 			//Initialize input method
-			self.getInput(dataObject);
+			_filter2.default.getInput(dataObject);
 			console.log('Pokemons geladen');
 		}).catch(function (error) {
 			_sections2.default.toggle('error');
@@ -160,10 +166,8 @@ var api = {
 
 	getPokemonDetail: function getPokemonDetail(name) {
 		console.log('Pokemon detail pagina wordt geladen');
-		var self = this;
 		//Show loader
-		var loader = document.querySelector('.loader');
-		loader.classList.add("show");
+		_loader2.default.show();
 		//Get data from localStorage
 		var data = JSON.parse(localStorage.getItem('dataObject'));
 
@@ -180,32 +184,12 @@ var api = {
 		fetch(dataDetail[0].url).then(function (response) {
 			return response.json();
 		}).then(function (data) {
-			loader.classList.remove("show");
+			_loader2.default.hide();
 			_render2.default.detail(data);
 		}).catch(function (error) {
 			_sections2.default.toggle('error');
 			console.log(error);
 		});
-	},
-
-	getInput: function getInput(dataObject) {
-		var self = this;
-		var searchForm = document.querySelector('.search');
-		searchForm.addEventListener('keyup', function (e) {
-			self.filter(this.value, dataObject);
-		});
-	},
-
-	filter: function filter(value, dataObject) {
-		var filterData = dataObject.filter(function (obj) {
-			if (obj.name.includes(value)) {
-				return true;
-			} else {
-				return false;
-			}
-			return filterData;
-		});
-		_render2.default.overview(filterData);
 	}
 
 };
@@ -227,11 +211,79 @@ var _sections = __webpack_require__(0);
 
 var _sections2 = _interopRequireDefault(_sections);
 
+var _background = __webpack_require__(5);
+
+var _background2 = _interopRequireDefault(_background);
+
+var _transparencyMin = __webpack_require__(9);
+
+var _transparencyMin2 = _interopRequireDefault(_transparencyMin);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var render = {
+
+	overview: function overview(dataObject) {
+		for (var i = 0; i < dataObject.length; i++) {
+			var directives = {
+				name: {
+					text: function text(params) {
+						return this.name;
+					}
+				},
+				link: {
+					href: function href(params) {
+						return "#pokemons/" + this.name;
+					}
+				},
+				img: {
+					src: function src(params) {
+						return "assets/img/pokemons/" + (this.id + 1) + ".png";
+					}
+				}
+			};
+			Transparency.render(document.querySelector('#pokemons ul'), dataObject, directives);
+		}
+	},
+	detail: function detail(dataObject) {
+		_background2.default.toggle(dataObject);
+
+		var directives = {
+			img: {
+				src: function src(params) {
+					return "assets/img/pokemons/" + this.id + ".png";
+				}
+			}
+
+		};
+		Transparency.render(document.querySelector('#pokemons-detail'), dataObject, directives);
+		_sections2.default.toggle('pokemons-detail');
+	}
+
+};
+
+exports.default = render;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _sections = __webpack_require__(0);
+
+var _sections2 = _interopRequireDefault(_sections);
+
 var _api = __webpack_require__(1);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _routie = __webpack_require__(5);
+var _routie = __webpack_require__(8);
 
 var _routie2 = _interopRequireDefault(_routie);
 
@@ -262,13 +314,13 @@ var router = {
 exports.default = router;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _router = __webpack_require__(2);
+var _router = __webpack_require__(3);
 
 var _router2 = _interopRequireDefault(_router);
 
@@ -293,7 +345,45 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 })();
 
 /***/ }),
-/* 4 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var background = {
+
+	element: document.querySelector("#pokemons-detail"),
+
+	toggle: function toggle(dataObject) {
+		for (var i = 0; i < dataObject.types.length; i++) {
+			if (dataObject.types[i].type.name == "fire") {
+				this.element.style.backgroundColor = "#E63946";
+			} else if (dataObject.types[i].type.name == "water") {
+				this.element.style.backgroundColor = "#5BC0EB";
+			} else if (dataObject.types[i].type.name == "grass") {
+				this.element.style.backgroundColor = "#9BC53D";
+			} else if (dataObject.types[i].type.name == "poison") {
+				this.element.style.backgroundColor = "#3D315B";
+			} else if (dataObject.types[i].type.name == "normal") {
+				this.element.style.backgroundColor = "grey";
+			} else if (dataObject.types[i].type.name == "electric") {
+				this.element.style.backgroundColor = "#FFE066";
+			} else {
+				this.element.style.backgroundColor = "#0B132B";
+			}
+		}
+	}
+
+};
+
+exports.default = background;
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -303,82 +393,62 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _sections = __webpack_require__(0);
+var _render = __webpack_require__(2);
 
-var _sections2 = _interopRequireDefault(_sections);
-
-var _transparencyMin = __webpack_require__(6);
-
-var _transparencyMin2 = _interopRequireDefault(_transparencyMin);
+var _render2 = _interopRequireDefault(_render);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var render = {
+var filter = {
+	getInput: function getInput(dataObject) {
+		var _this = this;
 
-	overview: function overview(dataObject) {
-		for (var i = 0; i < dataObject.length; i++) {
-			var directives = {
-				name: {
-					text: function text(params) {
-						return this.name;
-					}
-				},
-				link: {
-					href: function href(params) {
-						return "#pokemons/" + this.name;
-					}
-				},
-				img: {
-					src: function src(params) {
-						return "static/img/pokemons/" + (this.id + 1) + ".png";
-					}
-				}
-			};
-			Transparency.render(document.querySelector('#pokemons ul'), dataObject, directives);
-		}
-	},
-	detail: function detail(dataObject) {
-		this.backgroundColorToggle(dataObject);
-
-		var directives = {
-			img: {
-				src: function src(params) {
-					return "static/img/pokemons/" + this.id + ".png";
-				}
-			}
-
-		};
-		Transparency.render(document.querySelector('#pokemons-detail'), dataObject, directives);
-		_sections2.default.toggle('pokemons-detail');
+		var searchForm = document.querySelector('.search');
+		searchForm.addEventListener('keyup', function (e) {
+			return _this.filter(searchForm.value, dataObject);
+		});
 	},
 
-	backgroundColorToggle: function backgroundColorToggle(dataObject) {
-		var background = document.querySelector("#pokemons-detail");
-
-		for (var i = 0; i < dataObject.types.length; i++) {
-			if (dataObject.types[i].type.name == "fire") {
-				background.style.backgroundColor = "#E63946";
-			} else if (dataObject.types[i].type.name == "water") {
-				background.style.backgroundColor = "#5BC0EB";
-			} else if (dataObject.types[i].type.name == "grass") {
-				background.style.backgroundColor = "#9BC53D";
-			} else if (dataObject.types[i].type.name == "poison") {
-				background.style.backgroundColor = "#3D315B";
-			} else if (dataObject.types[i].type.name == "normal") {
-				background.style.backgroundColor = "grey";
-			} else if (dataObject.types[i].type.name == "electric") {
-				background.style.backgroundColor = "#FFE066";
+	filter: function filter(value, dataObject) {
+		var filterData = dataObject.filter(function (obj) {
+			if (obj.name.includes(value)) {
+				return true;
 			} else {
-				background.style.backgroundColor = "#0B132B";
+				return false;
 			}
-		}
+			return filterData;
+		});
+		_render2.default.overview(filterData);
 	}
 };
 
-exports.default = render;
+exports.default = filter;
 
 /***/ }),
-/* 5 */
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var loader = {
+	element: document.querySelector('.loader'),
+	show: function show() {
+		this.element.classList.add("show");
+	},
+	hide: function hide() {
+		this.element.classList.remove("show");
+	}
+
+};
+
+exports.default = loader;
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -594,7 +664,7 @@ if (false) {
 }
 
 /***/ }),
-/* 6 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -634,7 +704,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var r, i, s, u;for (u = [], i = 0, s = this.length; s > i; i++) {
         r = this[i], u.push(o.render(r, t, e, n));
       }return u;
-    }), ("undefined" != typeof jQuery && null !== jQuery || "undefined" != typeof Zepto && null !== Zepto) && (r = jQuery || Zepto, null != r && (r.fn.render = o.jQueryPlugin)), ("undefined" != typeof e && null !== e ? e.exports : void 0) && (e.exports = o), "undefined" != typeof window && null !== window && (window.Transparency = o), ("undefined" != "function" && null !== __webpack_require__(7) ? __webpack_require__(8) : void 0) && !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+    }), ("undefined" != typeof jQuery && null !== jQuery || "undefined" != typeof Zepto && null !== Zepto) && (r = jQuery || Zepto, null != r && (r.fn.render = o.jQueryPlugin)), ("undefined" != typeof e && null !== e ? e.exports : void 0) && (e.exports = o), "undefined" != typeof window && null !== window && (window.Transparency = o), ("undefined" != "function" && null !== __webpack_require__(10) ? __webpack_require__(11) : void 0) && !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
       return o;
     }.call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -910,7 +980,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }, {}] }, {}, [1]);
 
 /***/ }),
-/* 7 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -919,7 +989,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
