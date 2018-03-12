@@ -1,4 +1,5 @@
 import sections from './sections';
+import background from './background';
 import transparency from './vendor/transparency.min.js';
 
 const render = {
@@ -27,7 +28,7 @@ const render = {
 
 	},
 	detail: function(dataObject) {
-		this.backgroundColorToggle(dataObject);
+		background.toggle(dataObject);
 
 		var directives = {
 			img: {
@@ -41,27 +42,6 @@ const render = {
 		sections.toggle('pokemons-detail');
 	},
 
-	backgroundColorToggle: function(dataObject) {
-		const background = document.querySelector("#pokemons-detail");
-
-		for (let i = 0; i < dataObject.types.length; i++) {
-			if (dataObject.types[i].type.name == "fire") {
-				background.style.backgroundColor = "#E63946";
-			} else if (dataObject.types[i].type.name == "water") {
-				background.style.backgroundColor = "#5BC0EB";
-			} else if (dataObject.types[i].type.name == "grass") {
-				background.style.backgroundColor = "#9BC53D";
-			} else if (dataObject.types[i].type.name == "poison") {
-				background.style.backgroundColor = "#3D315B";
-			} else if (dataObject.types[i].type.name == "normal") {
-				background.style.backgroundColor = "grey";
-			} else if (dataObject.types[i].type.name == "electric") {
-				background.style.backgroundColor = "#FFE066";
-			} else {
-				background.style.backgroundColor = "#0B132B";
-			}
-		}
-	}
 };
 
 export default render;

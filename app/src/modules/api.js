@@ -38,7 +38,7 @@ const api = {
 				filter.getInput(dataObject);
 				console.log('Pokemons geladen');
 			})
-			.catch(function(error) {
+			.catch(error => {
 				sections.toggle('error');
 			});
 	},
@@ -51,7 +51,7 @@ const api = {
 		const data = JSON.parse(localStorage.getItem('dataObject'));
 
 		//Get the object with the name of name of the parameter and save it in variable
-		const dataDetail = data.filter(function(obj) {
+		const dataDetail = data.filter(obj => {
 			if (obj.name == name) {
 				return true;
 			} else {
@@ -61,14 +61,12 @@ const api = {
 
 		//Get data of the detail object
 		fetch(dataDetail[0].url)
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(data) {
+			.then(response => response.json())
+			.then(data => {
 				loader.hide();
 				render.detail(data);
 			})
-			.catch(function(error) {
+			.catch(error => {
 				sections.toggle('error');
 				console.log(error);
 			});
