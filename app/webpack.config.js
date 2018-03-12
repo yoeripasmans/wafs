@@ -20,7 +20,7 @@ module.exports = {
 			}],
 		}, ]
 	},
-	devtool: 'source-map',
+	devtool: 'inline-source-map',
 	devServer: {
 		port: 3000,
 		compress: true,
